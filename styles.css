@@ -1,0 +1,129 @@
+body {
+    margin: 0;
+}
+
+#app {
+
+}
+
+/* LAYOUT */
+
+#app {
+
+}
+
+#app > main {
+    margin-left: 300px;
+}
+
+#app > aside {
+    position: fixed;
+    width: 300px;
+    top: 0;
+    left: 0;
+    bottom: 0;
+
+}
+
+/* aside */
+
+
+#app > aside {
+    background-color: lightgray;
+}
+
+#app > aside header {
+    background-color: rgb(153, 217, 234);
+    color: white;
+    text-align: center;
+}
+
+#app > aside header p {
+    margin: 0px;
+}
+
+#app > aside header .brand{
+     font-size: 3em;
+     line-height: 1.2em;
+}
+
+#app > aside header .product{
+    color: #eeeeee;
+}
+
+#app > aside section {
+    padding: 1em;
+}
+
+#app > aside section {
+    background-color: lightgray;
+    padding: 1em;
+    color: white;
+}
+
+#app > aside section.loggedin {
+    background-color: gray;
+}
+
+#app > aside section.loggedin p {
+    margin: 0;
+}
+
+
+#app > aside section h1, #app > aside section h2, #app > aside section h3, #app > aside section h4{
+    color: #555555;
+}
+
+#app > aside section nav {
+    height: auto;
+    line-height: 2em;
+}
+
+#app > aside section nav a {
+    background-color: transparent;
+    vertical-align: 50%;
+}
+
+#app > aside section nav a .fas {
+    margin-right: 0.4em;
+}
+
+#app > aside section nav a:hover {
+
+}
+
+#app > aside nav a.waves-effect {
+    display: block;
+
+}
+
+#app > aside nav a i.material-icons {
+    line-height: inherit;
+}
+
+/* main */
+
+#app > main {
+    padding: 2em;
+}
+
+/* Cards */
+
+.card.info {
+    color:white;
+    margin-bottom: 2em;
+}
+
+.card.info *:last-child {
+    margin-bottom: 0;
+}
+
+.card.login {
+    width: 400px;
+}
+
+
+.card.debug {
+    margin-top: 2em;
+    color: white;
+}
