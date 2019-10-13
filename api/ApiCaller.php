@@ -3,7 +3,7 @@
 req("api", "Response");
 
 
-abstract class ApiCaller {
+class ApiCaller {
 
     const CURL_CONNECTION_TIMEOUT = 100;
     const CURL_TIMEOUT = 100;
@@ -15,7 +15,7 @@ abstract class ApiCaller {
 	protected $url;
 	protected $method;
 
-	function __construct($name, $endpoint, $method = "GET", $postdata = null){ // postdata används inte, hämtar från $_POST
+	function __construct($name, $endpoint, $method = "GET", $file = null){ // postdata används inte, hämtar från $_POST
 		$this->curl = curl_init();
         $this->name = $name;
 		$this->method = $method;
@@ -26,17 +26,34 @@ abstract class ApiCaller {
 
 		$this->response = new Response($endpoint, $this->method);
 
-        if($this->method == "POST") {
+		// header params array
+        $headers = [];
+
+        // om file med
+        if(isset($file)){
+            $this->response->requestFile = $file;
+            $this->response->requestFilename = basename($file);
+            $file= curl_file_create($file);
+            $_POST["extra_info"] = "no extra file info";
+            $_POST["file_contents"] = $file;
+        }
+
+        if($this->method == "POST" || $this->method == "PUT") {
             $postStr = json_encode($_POST);
             $GLOBALS["DEBUG"]["POST as JSON"] = $postStr;
             $this->response->requestData = $_POST;
-            curl_setopt($this->curl, CURLOPT_POST, TRUE);
+            if($this->method == "POST") {
+                curl_setopt($this->curl, CURLOPT_POST, TRUE);
+            } else {
+                curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, "PUT");
+            }
             curl_setopt($this->curl, CURLOPT_POSTFIELDS, $postStr);
-            curl_setopt($this->curl, CURLOPT_HTTPHEADER, array(
-                    'Content-Type: application/json',
-                    'Content-Length: ' . strlen($postStr)
-            ));
-         }
+
+            array_push($headers, 'Content-Type: application/json');
+            array_push($headers, 'Content-Length: ' . strlen($postStr));
+         } elseif($this->method == "DELETE"){
+            curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, "DELETE");
+        }
 
 		curl_setopt($this->curl, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
 		curl_setopt($this->curl, CURLOPT_HEADER, false); // include http header
@@ -44,6 +61,14 @@ abstract class ApiCaller {
 		curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true); // Should cURL return or print out the data? (true = return, false = print)
 		curl_setopt($this->curl, CURLOPT_CONNECTTIMEOUT, CONFIG::CURL_CONNECTTIMEOUT);
 		curl_setopt($this->curl, CURLOPT_TIMEOUT, CONFIG::CURL_TIMEOUT); // Timeout in seconds
+
+        // authorization
+        if(isset($_SESSION["user"]) && isset($_SESSION["authToken"])){
+            array_push($headers, 'Authorization: Bearer ' . $_SESSION["authToken"]);
+        }
+
+        // add header
+        curl_setopt($this->curl, CURLOPT_HTTPHEADER, $headers);
 	}
 
 	/*
@@ -81,7 +106,7 @@ abstract class ApiCaller {
 	function fetch(){
         if(CONFIG::LOG_CURL) {
             curl_setopt($this->curl, CURLOPT_VERBOSE, true); // curl debug
-            curl_setopt($this->curl, CURLOPT_STDERR, fopen($GLOBALS["LOCAL_PATH"] . 'curl_debug' . $_SESSION["iterator"] . '.log', 'w+')); // curl debug
+            curl_setopt($this->curl, CURLOPT_STDERR, fopen($GLOBALS["LOCAL_PATH"] . CONFIG::LOG_CURL_FILEPREFIX . str_replace(' ', '', $this->name) . $_SESSION["iterator"] . '.log', 'w+')); // curl debug
         }
         $_SESSION["iterator"]++;
 

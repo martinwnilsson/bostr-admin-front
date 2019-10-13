@@ -9,11 +9,11 @@ if(isset($_SESSION["user"])){
 
     <?php if(!isset($_SESSION["isLive"])){ ?>
 
-    <?php incV("backendDead"); ?>
+    <?php incV("aside_backendDead"); ?>
 
     <?php } else { ?>
 
-        <?php incV("loggedin"); ?>
+        <?php incV("aside_loggedin"); ?>
         <?php if($loggedin){ ?>
         <section class="side-body">
             <div class="main-nav">

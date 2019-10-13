@@ -9,6 +9,8 @@ class Response
     public $requestHeaders;
     public $requestQuery;
     public $requestData;
+    public $requestFile;
+    public $requestFilename;
     public $success;
     public $responseHeaders;
     public $responseBody;

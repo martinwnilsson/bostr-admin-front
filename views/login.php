@@ -1,5 +1,6 @@
+<h1>Inloggning</h1>
+<p>Du måste vara inloggad för att använda det här verktyget</p>
 <?php
-if(!isset($_SESSION["authToken"])){
-    BoxFactory::info("<p>Du måste logga in</p>");
+if(!isset($_SESSION["user"])){
     FormFactory::loginForm();
 }

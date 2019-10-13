@@ -92,8 +92,8 @@ body {
 
 }
 
-#app > aside nav a.waves-effect {
-    display: block;
+#app > aside nav a.active {
+    color: darkorange;
 
 }
 
@@ -126,4 +126,27 @@ body {
 .card.debug {
     margin-top: 2em;
     color: white;
+}
+
+/* script */
+#script .script-list {
+
+}
+
+#script .script-list p {
+    margin: 0;
+    line-height: 35px;
+    padding-right: 1em;
+}
+
+#script .script-list p.name {
+    color: #dddddd;
+    font-weight: bold;
+}
+#script .script-list p.type {
+    font-style: italic;
+}
+#script .script-list p.id {
+    color: #444444;
+    font-style: italic;
 }

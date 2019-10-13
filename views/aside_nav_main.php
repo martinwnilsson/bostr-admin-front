@@ -1,9 +1,25 @@
 <nav class="nav flex-column">
     <?php
-        LinkFactory::mainNavLink("Konfigurationer", "conf","database");
-        LinkFactory::mainNavLink("Front-användare", "conf","user");
-        LinkFactory::mainNavLink("Ekonomier", "conf","euro-sign", true);
-        LinkFactory::mainNavLink("Bostadsobject", "conf","home", true);
-        LinkFactory::mainNavLink("Matchningsparametrar", "conf","tasks", true);
+        global $ROUTES;
+
+        foreach($ROUTES as $label => $rt){
+            $hidden = false;
+            if(isset($rt["hidden"]) && $rt["hidden"]) {
+                $hidden = true;
+            }
+
+            if(!$hidden){
+                $icon = null;
+                $active = true;
+                if (isset($rt["icon"])) {
+                    $icon = $rt["icon"];
+                }
+                if (isset($rt["active"])) {
+                    $active = $rt["active"];
+                }
+                print LinkFactory::mainNavLink($label, $rt["route"], $icon, $active);
+            }
+
+        }
     ?>
 </nav>

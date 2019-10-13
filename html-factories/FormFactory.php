@@ -15,9 +15,13 @@ final class FormFactory
         return '<input id="'.$id.'" name="'.$id.'" type="hidden" value="'.$value.'"">';
     }
 
-    static function getSubmitButton($label = "Spara"){
+    static function getFileField($id){
+        return '<input class="" id="'.$id.'" name="'.$id.'" type="file">';
+    }
+
+    static function getSubmitButton($label = "Spara", $name = "submit"){
         return "
-        <button class=\"btn btn-primary\" type=\"submit\">$label
+        <button class=\"btn btn-primary\" type=\"submit\" name=\"$name\">$label
             <i class=\"fas fa-check\"></i>
         </button>
         ";
@@ -34,14 +38,43 @@ final class FormFactory
         // old route "'.CONFIG::BASE_URL.'?'.CONFIG::PARAM_NAV.'='.ROUTES::login.'"
         $form = '
         <form method="post" action="#">'.
-            self::getHiddenfield("login-form").
             self::getTextfield("username", "Användarnamn", "text", $user).
             self::getTextfield("password", "Lösenord", "password", $passw).
-            self::getSubmitButton("Logga in").
+            self::getSubmitButton("Logga in", "login").
             self::getCancelButton().
         '</form>';
 
         $card = CardFactory::getCardWithHeader("Login", $form, "login");
+
+
+        print $card;
+    }
+
+    static function fileUploadForm($action = "#"){
+        $form = '
+        <form method="post" action="'.$action.'" enctype="multipart/form-data">'.
+            self::getFilefield("scriptfile").
+            self::getSubmitButton("Ladda upp", "fileupload").
+            //self::getCancelButton().
+            '</form>';
+
+        $card = CardFactory::getCardWithHeader("Ladda skript", $form, "load-script");
+
+
+        print $card;
+    }
+
+    static function scriptUploadForm(){
+        $action="?".CONFIG::PARAM_NAV."=scripts";
+        $form = '
+        <form class="form-inline" method="post" action="'.$action.'" enctype="multipart/form-data">'.
+            //self::getTextfield("scriptname", "Etikett", "text", "Ett beskrivande namn på skriptet").
+            self::getFilefield("scriptfile").
+            self::getSubmitButton("Ladda upp", "scriptupload").
+            //self::getCancelButton().
+            '</form>';
+
+        $card = CardFactory::getCardWithHeader("Ladda skript", $form, "load-script");
 
 
         print $card;

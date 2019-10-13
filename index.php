@@ -1,8 +1,13 @@
 <?php
+    // Set server session till 5 min
+    ini_set('session.gc_maxlifetime', 300);
+    session_set_cookie_params(300);
+
     session_start();
     require_once("session.php");
 
     require_once("config.php");
+    require_once("routing.php");
     require_once("functions/globals.php");
 
     req("functions", "backendLive");
@@ -48,7 +53,7 @@
                     </header>
 
                     <article>
-                    <?php include("routing.php"); ?>
+                    <?php route(); ?>
                     </article>
 
                     <footer class="page-footer">

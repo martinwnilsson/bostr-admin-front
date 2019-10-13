@@ -12,8 +12,11 @@ final class CONFIG
 	const VERSION = "0.01";
 	const DEBUG = true; // om visa debug-prylar
     const LOG_CURL = false; // om logga CURL-anropen
+    const LOG_CURL_FILEPREFIX = "curls_log_";
 
-	const BASE_URL = ""; // med avslutande "/" (om inte tom, då bara "")
+	const BASE_URL = "http://localhost/"; // med avslutande "/" (om inte tom, då bara "")
+
+    const UPLOAD_DIR = "uploads/"; // med avslutande "/"
 
 	// nav
     const PARAM_NAV = "r"; // route
@@ -26,6 +29,9 @@ final class CONFIG
     // API ENDPOINTS
     const API_USER_PIMG = "ping";
     const API_ADMIN_LOGIN = "login";
+    const API_ADMIN_LOGOUT = "logout";
+    const API_ADMIN_CONF_GET = "configs";
+    const API_ADMIN_SCRIPT_REST = "files";
 
     // log
     const LOG_DIR = "../logs/";
@@ -38,9 +44,4 @@ final class CONFIG
     const CURL_CONNECTTIMEOUT = 0; // sekunder
 }
 
-FINAL class ROUTES
-{
-    const login = "login";
-    const configurations = "conf";
-}
 

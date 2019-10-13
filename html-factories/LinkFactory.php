@@ -2,21 +2,30 @@
 
 final class LinkFactory
 {
-    static function mainNavLink($label, $route, $icon = null, $disabled = false){
+    static function mainNavLink($label, $route, $icon = null, $active = true){
         $href = CONFIG::BASE_URL . "?" . CONFIG::PARAM_NAV . "=" . $route;
         if($icon){
             $icon = '<i class="fas fa-'.$icon.'"></i>';
         } else {
             $icon = "";
         }
-        if($disabled){
+        if(!$active){
             $disabled = "disabled";
         } else {
             $disabled = "";
         }
 
-        $classes = '"nav-link '. $disabled.'"';
+        $current = '';
+        if(getRoute() == $route){
+            $current .= ' active';
+        }
 
-        print "<a class=$classes href=\"$href\">$icon$label</a>";
+        $classes = '"nav-link '. $disabled.$current .'"';
+
+        if(getRoute() == $route){
+            $classes .= " active";
+        }
+
+        return "<a class=$classes href=\"$href\">$icon$label</a>";
     }
 }

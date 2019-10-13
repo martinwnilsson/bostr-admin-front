@@ -5,13 +5,10 @@ $GLOBALS["DEBUG_R"] = [];
 $GLOBALS["DEBUG_RESPONSES"] = [];
 $GLOBALS["LOCAL_PATH"] = $_SERVER["DOCUMENT_ROOT"]."/";
 
-function getRoute(){
-    if(isset($_GET[CONFIG::PARAM_NAV])){
-        return $_GET[CONFIG::PARAM_NAV];
-    } else {
-        return null;
-    }
-}
+$GLOBALS["DEBUG_R"]["SESSION"]=  $_SESSION;
+$GLOBALS["DEBUG_R"]["SERVER"]=  $_SERVER;
+$GLOBALS["DEBUG_R"]["POST"]=  $_POST;
+$GLOBALS["DEBUG_R"]["GET"]=  $_GET;
 
 function req($folder, $phpfile){
     if($folder != ""){
